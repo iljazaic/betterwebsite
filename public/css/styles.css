@@ -32,7 +32,7 @@ img {
     background-color: rgb(255, 255, 255);
     height: 100%;
     width: 100vw;
-    overflow: hidden;
+    position: relative;
 }
 
 .navDiv {
@@ -55,7 +55,6 @@ img {
 .banner {
     width: 100vw;
     height: 5vh;
-    background-color: red;
     z-index: 1000;
 }
 
@@ -123,6 +122,11 @@ img {
     transform: scale(-1, 1);
 
 }
+
+.top-margin-100px {
+    margin-top: 100px;
+}
+
 
 .medium-high {
     top: -60% !important;
@@ -253,10 +257,8 @@ img {
 }
 
 #lantern {
-    position: absolute;
-    top: -42%;
-    left: -7%;
-    z-index: 1;
+    position: relative;
+    z-index: 111;
 }
 
 #lantern>img {
@@ -267,9 +269,21 @@ img {
 
 #lantern>.light_content {
     position: relative;
-    left: 16%;
-    top: -3100px;
-    font-size: 35px;
+
+    width: 100vw;
+    text-align: center;
+    top:50px;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.light_content>span {
+    font-size: 30px;
+
 }
 
 .content-img {
@@ -309,6 +323,10 @@ img {
 
 }
 
+
+.ghost{
+    
+}
 
 
 .image-on-right>h1,
@@ -383,66 +401,65 @@ img {
         width: 25%;
         font-size: 32px;
     }
-    
+
     .banner {
         font-size: 14px;
         height: 30px;
         line-height: 30px;
     }
-    
+
     #lantern {
         top: -10%;
         left: -20%;
         transform: scale(0.6);
     }
-    
-    #lantern > .light_content {
+
+    #lantern>.light_content {
         font-size: 16px;
         top: -1500px;
         padding: 0 15px;
     }
-    
+
     .undercontent {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
     }
-    
-    .image-on-right > h1,
-    .image-on-right > h3,
-    .image-on-right > h4,
-    .image-on-left > h1,
-    .image-on-left > h3,
-    .image-on-left > h4 {
+
+    .image-on-right>h1,
+    .image-on-right>h3,
+    .image-on-right>h4,
+    .image-on-left>h1,
+    .image-on-left>h3,
+    .image-on-left>h4 {
         grid-column: 1;
     }
-    
-    .image-on-left > img,
-    .image-on-right > img {
+
+    .image-on-left>img,
+    .image-on-right>img {
         grid-column: 1;
         grid-row: auto;
         max-width: 100%;
         height: auto;
     }
-    
-    .undercontent > h1 {
+
+    .undercontent>h1 {
         font-size: 28px;
     }
-    
-    .undercontent > h3,
-    .undercontent > h4 {
+
+    .undercontent>h3,
+    .undercontent>h4 {
         font-size: 16px;
     }
-    
+
     .right-minus-100 {
         right: -50px !important;
     }
-    
+
     .right-minus-50 {
         right: -25px !important;
     }
-    
+
     .right-plus-50 {
         right: 25px !important;
     }
 }
-

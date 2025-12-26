@@ -67,7 +67,14 @@
                 <span>
                     And I have built some cool projects in my spare time
                 </span>
+
+                <span class="top-margin-100px">Scroll down to see them</span>
             </div>
+
+        </div>
+
+
+        <div class="ghost">
 
         </div>
 
@@ -81,6 +88,50 @@
 <script>
 
 
+
+
+    const projects = [
+        {
+            name: "Limited Ram Remote Compute Cluster",
+            img_src: "",
+            box_classes: "",
+            ref: "/projects/compute-cluster",
+            paragraph: "Having limited compute space, I wanted to orchestrate some VMs to host services for personal use",
+            tags: ["Servers", "Networking", "Shell", "QEMU", "Docker", "Linux/UNIX"]
+        },
+        {
+            name: "Overcoming NAT with custom Load Balancer",
+            img_src: "",
+            box_classes: "",
+            ref: "/projects/load-balancer",
+            paragraph: "To get remote access to multiple VMs behind a single NAT address I had to build my own semi-custom 'Load Balancer' and authentication method",
+            tags: ["Servers", "Networking", "Python", "Linux/UNIX"],
+        },
+        {
+            name: "Solving Neural Network Training on Alpine Linux",
+            img_src: "",
+            box_classes: "",
+            ref: "projects/cuda-on-alpine",
+            paragraph: "There are few better graphics cards for machine learning on the market than NVIDIA ones. However, due to technical limitations, Alpine Linux cannot run them. Here, I will be solving this issue",
+            tags: ["Python", "Machine Learning", "Linux/UNIX"]
+        },
+        {
+            name: "Training A Chess Neural Network",
+            img_src: "",
+            box_classes,
+            ref: "projects/chess-network",
+            paragraph: "Here I will be walking through the steps I took to learn machine learning by building a chess engine by myself",
+            tags: ["Python", "C/C++", "Machine Learning"]
+        },
+        {
+            name: "Large Dataset Analysis with Python and R",
+            img_src: "",
+            box_classes: "",
+            ref: "/projects/data-guessr",
+            paragraph: "Here I will show off my WIP data guessing game, and the huge data analysis work that goes into gathering the data",
+            tags: ["Python", "Data Analysis"]
+        }
+    ]
 
     const slides = [
         {
