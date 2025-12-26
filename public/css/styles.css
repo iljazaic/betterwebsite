@@ -272,7 +272,7 @@ img {
 
     width: 100vw;
     text-align: center;
-    top:50px;
+    top: 50px;
     height: 50vh;
     display: flex;
     align-items: center;
@@ -324,8 +324,67 @@ img {
 }
 
 
-.ghost{
-    
+.ghost {
+    display: grid;
+    width: 70%;
+    left: 15%;
+    position: relative;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    justify-items: center;
+    row-gap: 50px;
+}
+
+.box {
+    width: 400px;
+    height: 250px;
+
+
+    color: #000000;
+    transform: translateX(40px);
+
+    opacity: 0;
+
+    position: relative;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    padding: 50px;
+    border-radius: 50px;
+
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+
+    box-shadow: 5px 5px rgb(0, 0, 0);
+}
+
+.box.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.box>img{
+    grid-column: 2;
+    grid-row: 1;
+    top:30%;
+    left: 10%;
+    position: relative;
+}
+.box>a{
+    grid-column: 1;
+    grid-row: 1;
+    color: black;
+}
+.box>p{
+    grid-column: 1;
+    grid-row: 3;
+    position: relative;
+    left: 0;
 }
 
 

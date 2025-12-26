@@ -92,8 +92,8 @@
 
     const projects = [
         {
-            name: "Limited Ram Remote Compute Cluster",
-            img_src: "",
+            name: "Compute Cluster on tight DRAM budget",
+            img_src: "ramjar.svg",
             box_classes: "",
             ref: "/projects/compute-cluster",
             paragraph: "Having limited compute space, I wanted to orchestrate some VMs to host services for personal use",
@@ -117,8 +117,8 @@
         },
         {
             name: "Training A Chess Neural Network",
-            img_src: "",
-            box_classes,
+            img_src: "chessnet.svg",
+            box_classes: "",
             ref: "projects/chess-network",
             paragraph: "Here I will be walking through the steps I took to learn machine learning by building a chess engine by myself",
             tags: ["Python", "C/C++", "Machine Learning"]
@@ -211,11 +211,14 @@
         </div>`
         document.querySelector('.content').innerHTML += html_to_inject;
     }
+
+
     function loadScreen() {
         //load dots;
         document.querySelector(".content").style.width = `${100 * slides.length}vw`;
         document.querySelector(".content").style.gridTemplateColumns = `repeat(${slides.length}, 100vw)`;
 
+        //load all the slide presets to html
         for (let i = 0; i < slides.length; i++) {
             var c = i == current_slide ? "active" : "";
             document.querySelector(".dot-holder").innerHTML += `<div onclick="moveto(${i})" id="dot${i}" class="${c}"></div>`
@@ -224,19 +227,22 @@
             loadslide();
         }
         current_slide = 0;
-
         setTimeout(() => {
 
             recursiveAutoFlip();
 
         }, slides[0].slide_timer);
+
+
+        //load all the project boxes to html
+
+        for (let i = 0; i < projects.length; i++) {
+            document.querySelector('.ghost').innerHTML += `<div class='box'> <a href='${projects[i].ref}'><h1>${projects[i].name}</h1></a> <img src="../img/${projects[i].img_src}"/> <p>${projects[i].paragraph}</p> </div>`;
+        }
     }
 
 
-    function moveto(i) {
-        current_slide = i;
-        spinToSlide();
-    }
+
 
 
     //interact with the slides
@@ -277,6 +283,33 @@
 
     loadScreen();
 
+
+
+    const reveals = document.querySelectorAll('.box');
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const index = [...reveals].indexOf(entry.target);
+
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                    }, index * 150);
+
+                    observer.unobserve(entry.target); // run once
+                }
+            });
+        },
+        { threshold: 0.1 }
+    );
+
+    reveals.forEach((el) => observer.observe(el));
+
+    function moveto(i) {
+        current_slide = i;
+        spinToSlide();
+    }
 
 </script>
 
