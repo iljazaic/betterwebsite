@@ -162,6 +162,9 @@
     }
     function loadScreen() {
         //load dots;
+        document.querySelector(".content").style.width = `${100 * slides.length}vw`;
+        document.querySelector(".content").style.gridTemplateColumns = `repeat(${slides.length}, 100vw)`;
+
         for (let i = 0; i < slides.length; i++) {
             var c = i == current_slide ? "active" : "";
             document.querySelector(".dot-holder").innerHTML += `<div onclick="moveto(${i})" id="dot${i}" class="${c}"></div>`
