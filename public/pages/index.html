@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+</head>
+
+<body>
+
+    <div class="navDiv">
+
+        <div id="slideshow-div">
+            <div onclick="movebck()" id="mv-bck" class="mover fill-height al-txt-cntr al-txt-mdl">
+                &lsaquo; </div>
+            <div class="fill-height al-txt-cntr content">
+            </div>
+            <div class="dot-holder fill-width al-txt-cntr al-txt-btm horizontal-flex override-pos-absolute">
+            </div>
+            <div id="mv-fwr" onclick="movefw()" class="mover fill-height al-txt-cntr al-txt-mdl">
+                &rsaquo; </div>
+        </div>
+
+    </div>
+    <div class="banner fill-width">
+        </span>
+        <span>
+            Check out my <a href="/projects/python">Python repositories</a>!
+        </span>
+        <span>
+            <a href="/files/resume.pdf">Download</a> my Resume!
+        </span>
+        <span>
+            Find me on <a href="https://linkedin.com/">LinkedIn</a>!
+        </span>
+        <span>
+            See more of my <a href="/projects">projects</a>
+        </span>
+        <span>
+            Check out my <a href="/projects/python">Python repositories</a>!
+        </span>
+        <span>
+            <a href="/files/resume.pdf">Download</a> my Resume!
+        </span>
+        <span>
+            Find me on <a href="https://linkedin.com/">LinkedIn</a>!
+        </span>
+        <span>
+            See more of my <a href="/projects">projects</a>
+        </span>
+    </div>
+
+    <div class="mainDiv">
+
+
+        <div id="lantern">
+
+            <img src="../img/light.svg" class="">
+
+            <div class="light_content">
+                <span>
+                    I am a Software Engineering Student At VIA UC, Denmark
+                </span>
+                <br />
+                <br />
+
+                <span>
+                    And I have built some cool projects in my spare time
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+</body>
+
+<script>
+
+
+
+    const slides = [
+        {
+            text: "Perfectionist work",
+            img_src: "spiral.svg",
+            slide_timer: 7000,
+            img_classes: "flip-horizontal right-plus-50 extra-large",
+            image_position: "image-on-right",
+            content: "I strive for as high quality of work as possible",
+            subtext: "Perfection is not the enemy of good - especially digitally"
+        },
+        {
+            text: "AI Integration Skills",
+            img_src: "ai.svg",
+            slide_timer: 7000,
+            image_position: "image-on-left",
+            img_classes: "rotate90 medium right-plus-50",
+            content: "Ensuring seamless AI integration into low-stakes codebases",
+            subtext: "Boilerplate layers with Gemini/Claude have never been easier"
+        },
+        {
+            text: "Untangling AI spaghetti code",
+            img_src: "spaghetti.svg",
+            slide_timer: 9000,
+            image_position: "image-on-right",
+            img_classes: "mega-large higher rotate90",
+            content: "Extenive experience in un-tangling AI spaghetti code",
+            subtext: "Wrangling AI-written code into replicability and maintainability"
+        },
+        {
+            text: "On-Site Infrastructure Developer",
+            img_src: "virtual.svg",
+            slide_timer: 11000,
+            image_position: "image-on-left",
+            img_classes: "larger right-plus-50 rotate90",
+            content: "I have skills deploying on-site compute machine clusters using QuemuVM and Kubernetes",
+            subtext: "Hosting Local infrastrucure has never been more important in the days of Cloudflare outages"
+        },
+        {
+            text: "High-Scale Application Developer",
+            img_src: "git.svg",
+            slide_timer: 9000,
+            img_classes: "mega-large medium-higher rotate90",
+            image_position: "image-on-right",
+            content: "Constructing multi-level applications using SpringBoot, NodeJS, Flask",
+            subtext: "Keeping track of every line of code is my passion"
+        },
+        {
+            text: "Data Analysis Is My Passion",
+            img_src: "chart.svg",
+            slide_timer: 11000,
+            image_position: "image-on-right",
+            img_classes: "meidum-high graph rotate90 right-minus-50",
+            content: "R and Python allow me to contort data to my will",
+            subtext: "Building visualisations is the most satisfying part of the job"
+        }
+    ]
+
+
+
+    var current_slide = 0;
+    const last_slide = slides.length - 1;
+    document.addEventListener('dragstart', e => {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+        }
+    });
+
+    //load everything
+    function loadslide() {
+        const slide_framework = slides[current_slide];
+        const html_to_inject = `<div class="undercontent ${slide_framework.image_position}">
+                <h1 class="fill-half-width white-text">${slide_framework.text}</h1>
+                <img src="../img/${slide_framework.img_src}" class="content-img ${slide_framework.img_classes}".>
+                <h3 class="fill-half-width">${slide_framework.content}</h3>
+                <h4 class="fill-width">${slide_framework.subtext}</h3>
+        </div>`
+        document.querySelector('.content').innerHTML += html_to_inject;
+    }
+    function loadScreen() {
+        //load dots;
+        for (let i = 0; i < slides.length; i++) {
+            var c = i == current_slide ? "active" : "";
+            document.querySelector(".dot-holder").innerHTML += `<div onclick="moveto(${i})" id="dot${i}" class="${c}"></div>`
+            //load slides in
+            current_slide = i;
+            loadslide();
+        }
+        current_slide = 0;
+
+        setTimeout(() => {
+
+            recursiveAutoFlip();
+
+        }, slides[0].slide_timer);
+    }
+
+
+    function moveto(i) {
+        current_slide = i;
+        spinToSlide();
+    }
+
+
+    //interact with the slides
+    function spinToSlide() {
+        document.querySelector(".active").className = "";
+        document.querySelector("#dot" + current_slide).className = "active"
+
+        document.querySelector('.content').style.left = `${-100 * current_slide}%`;
+    }
+
+    function movefw() {
+        if (current_slide == last_slide) {
+            current_slide = 0;
+        } else {
+            current_slide++;
+        }
+        spinToSlide();
+    }
+
+    function movebck() {
+        if (current_slide == 0) {
+            current_slide = last_slide;
+        } else {
+            current_slide--;
+        }
+        spinToSlide();
+    }
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    async function recursiveAutoFlip() {
+        movefw();
+        spinToSlide();
+
+        await delay(slides[current_slide].slide_timer);
+
+        recursiveAutoFlip();
+    }
+
+    loadScreen();
+
+
+</script>
+
+</html>
