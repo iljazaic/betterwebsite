@@ -368,19 +368,21 @@ img {
     transform: translateX(0);
 }
 
-.box>img{
+.box>img {
     grid-column: 2;
     grid-row: 1;
-    top:30%;
+    top: 30%;
     left: 10%;
     position: relative;
 }
-.box>a{
+
+.box>a {
     grid-column: 1;
     grid-row: 1;
     color: black;
 }
-.box>p{
+
+.box>p {
     grid-column: 1;
     grid-row: 3;
     position: relative;

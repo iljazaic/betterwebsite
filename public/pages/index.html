@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/mobile_design.css" media="(max-width: 479px)">
+    <link rel="stylesheet" href="../css/mobile_design.css">
 
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 
 <body>
@@ -209,7 +209,7 @@
 
     function loadScreen() {
         //load dots;
-        document.querySelector(".content").style.width = `${100 * slides.length}vw`;
+        document.querySelector(".content").style.width = `${slides.length*100}vw`;
         document.querySelector(".content").style.gridTemplateColumns = `repeat(${slides.length}, 100vw)`;
 
         //load all the slide presets to html
@@ -241,10 +241,11 @@
 
     //interact with the slides
     function spinToSlide() {
-        document.querySelector(".active").className = "";
-        document.querySelector("#dot" + current_slide).className = "active"
+        document.querySelector(".active")?.classList.remove("active");
+        document.querySelector("#dot" + current_slide)?.classList.add("active");
 
-        document.querySelector('.content').style.left = `${-100 * current_slide}%`;
+        document.querySelector('.content').style.transform =
+            `translateX(-${current_slide * 100}vw)`;
     }
 
     function movefw() {
