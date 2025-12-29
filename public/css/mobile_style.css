@@ -20,6 +20,8 @@
         width: 100vw;
     }
 
+
+
     .mover {
         width: 15%;
         font-size: 35px;
@@ -55,6 +57,7 @@
         gap: 15px;
     }
 
+
     .undercontent>h1 {
         font-size: 28px;
         grid-column: 1;
@@ -84,9 +87,8 @@
     .image-on-left>img {
         grid-column: 1 !important;
         grid-row: 2 !important;
-        height: 120px !important;
-        width: 120px !important;
-        transform: none !important;
+        height: 50% ;
+        width: 50%;
         rotate: 0 !important;
         position: static !important;
         margin: 10px 0;
@@ -102,9 +104,9 @@
     }
 
     .content-img {
-        rotate: 0 !important;
-        height: 100px !important;
-        width: 100px !important;
+        rotate: 0deg !important;
+        height: 50% !important;
+        width: 50% !important;
         right: auto !important;
         position: static !important;
     }
@@ -113,7 +115,8 @@
     .extra-large,
     .mega-large,
     .larger {
-        height: 100px !important;
+        height: 500px;
+        max-height: 50%;
         top: 0 !important;
     }
 
@@ -122,7 +125,7 @@
     }
 
     .flip-horizontal {
-        transform: none !important;
+        transform: rotate(90deg) !important;
     }
 
     .medium-high,
@@ -211,9 +214,9 @@
     .box>img {
         grid-column: 1 !important;
         grid-row: 2 !important;
-        height: 100px !important;
-        width: 100px !important;
-        position: static !important;
+        height:150px !important;
+        width: 41px !important;
+        position: relative !important;
         top: auto !important;
         left: auto !important;
         margin: 10px auto;

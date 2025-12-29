@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/small_style.css">
-    <link rel="stylesheet" href="../css/mobile_style.css">
+    <link rel="stylesheet" href="../css/mobile_design.css" media="(max-width: 479px)">
 
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
 </head>
@@ -113,7 +112,7 @@
         {
             name: "Reverse-Engineering Geoguessr",
             img_src: "mask.png",
-            box_classes: "",
+            box_classes: "mobile-rotate-90 silly-format",
             ref: "projects/geo",
             paragraph: "As a fun side challenge I decided to build a free Geoguessr version for personal use",
             tags: ["Python", "Machine Learning", "Linux/UNIX"]
@@ -132,7 +131,7 @@
         {
             text: "Perfectionist work",
             img_src: "spiral.svg",
-            slide_timer: 7000,
+            slide_timer: 700000,
             img_classes: "flip-horizontal right-plus-50 extra-large",
             image_position: "image-on-right",
             content: "I strive for as high quality of work as possible",
@@ -141,7 +140,7 @@
         {
             text: "AI Integration Skills",
             img_src: "ai.svg",
-            slide_timer: 7000,
+            slide_timer: 700000,
             image_position: "image-on-left",
             img_classes: "rotate90 medium right-plus-50",
             content: "Ensuring seamless AI integration into low-stakes codebases",
@@ -150,9 +149,9 @@
         {
             text: "Untangling AI spaghetti code",
             img_src: "spaghetti.svg",
-            slide_timer: 9000,
+            slide_timer: 900000,
             image_position: "image-on-right",
-            img_classes: "mega-large higher rotate90",
+            img_classes: "mega-large higher rotate90 mobile-smaller",
             content: "Extenive experience in un-tangling AI spaghetti code",
             subtext: "Wrangling AI-written code into replicability and maintainability"
         },
@@ -232,7 +231,7 @@
         //load all the project boxes to html
 
         for (let i = 0; i < projects.length; i++) {
-            document.querySelector('.ghost').innerHTML += `<div class='box'> <a href='${projects[i].ref}'><h1>${projects[i].name}</h1></a> <img src="../img/${projects[i].img_src}"/> <p>${projects[i].paragraph}</p> </div>`;
+            document.querySelector('.ghost').innerHTML += `<div class='box ${projects[i].box_classes}'> <a href='${projects[i].ref}'><h1>${projects[i].name}</h1></a> <img src="../img/${projects[i].img_src}"/> <p>${projects[i].paragraph}</p> </div>`;
         }
     }
 
