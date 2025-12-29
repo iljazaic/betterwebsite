@@ -20,6 +20,7 @@
 
 
     .banner {
+        height: 0px !important;
         visibility: hidden !important;
     }
 
