@@ -90,80 +90,70 @@
     /* Slides */
     /* Slides */
     .undercontent {
-        width: 100vw;
+        width: 100%;
         left: 0;
-        padding: 20px;
+        padding: 0px;
         box-sizing: border-box;
         display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto auto;
-        gap: 15px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
         transform: translateX(0);
+        padding-left: 70px;
+        padding-right: 70px;
         position: relative;
         height: 100%;
         overflow-y: auto;
+
+
+        justify-content: center;
+        align-items: center;
+
         overflow-x: hidden;
         background-color: rgb(0, 0, 0);
     }
 
-    .undercontent>h1 {
-        font-size: 28px;
-        grid-column: 1;
+
+    .text-undercontent {
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        height: auto;
-        margin: 0;
-        padding: 0;
-        display: block;
     }
 
-    .undercontent>h3 {
-        font-size: 16px;
-        grid-column: 1;
-        width: 100%;
-        height: auto;
-        margin: 10px 0;
-        padding: 0;
-        text-align: center;
-        display: block;
+    .image-on-bottom>.text-undercontent {
+        grid-row-start: 1 !important;
+        grid-row-end: 1 !important;
+        grid-column-start: 1 !important;
+        grid-column-end: 3 !important;
     }
 
-    .undercontent>h4 {
-        font-size: 13px;
-        grid-column: 1;
-        width: 100%;
-        height: auto;
-        margin: 5px 0;
-        padding: 0;
-        text-align: center;
-        display: block;
-    }
-
-    .undercontent>img {
-        max-width: 100%;
-        height: auto;
-        grid-column: 1;
-        grid-row: 2;
-        max-height: 200px;
-        object-fit: contain;
-    }
-
-    /* Image positioning classes for mobile */
-    .image-on-right>h1,
-    .image-on-right>h3,
-    .image-on-right>h4,
-    .image-on-left>h1,
-    .image-on-left>h3,
-    .image-on-left>h4 {
-        grid-column: 1;
-        grid-column-end: auto;
+    .image-on-bottom>img {
+        grid-row-start: 2;
+        grid-row-end: 3;
         grid-column-start: 1;
+        grid-column-end: 3;
+        max-width: 150%;
+        width: 150%;
+        max-height: 50%;
+        left: -25%;
+        height: 100%;
     }
 
-    .image-on-left>img,
+
+    .image-on-right>.text-undercontent {
+        grid-row-start: 1 !important;
+        grid-row-end: 2 !important;
+        grid-column: 1 !important;
+    }
+
     .image-on-right>img {
-        grid-column: 1;
-        grid-row: auto;
-        grid-row-start: auto;
+        grid-row-start: 1;
+        grid-row-end: 3;
+        grid-column: 2;
+        max-width: 200%;
+        width: 200%;
+        max-height: 50%;
+        left: -50%;
+        height: 100%;
     }
 
     /* Light content section */
@@ -372,14 +362,10 @@
         object-fit: contain;
     }
 
-    .higher,
-    .right-minus-100,
-    .right-minus-50,
-    .right-plus-50 {
-        position: relative !important;
-        top: auto !important;
-        right: auto !important;
+    .higher {
+        top: 0;
     }
+
 
     .override-pos-absolute {
         position: absolute !important;
@@ -445,7 +431,7 @@
         background-color: rgb(0, 0, 0);
         background-image: url("../img/light.png");
         background-size: 100%;
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.1s ease-in-out;
         transform: translateY(-80%);
         z-index: 1000;
     }
@@ -469,13 +455,13 @@
         color: rgb(209, 113, 3);
     }
 
-    .element>a:visited{
+    .element>a:visited {
         color: rgb(158, 86, 4);
     }
 
 
     :root {
-        --arrow-rotate: 180deg;
+        --arrow-rotate: 0deg;
     }
 
     .roller {
@@ -493,7 +479,7 @@
         background-image: url("../img/train.svg");
         background-repeat: no-repeat;
         background-size: 8%;
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.5s ease-out;
         transform: rotate(var(--arrow-rotate));
 
         background-position: center;

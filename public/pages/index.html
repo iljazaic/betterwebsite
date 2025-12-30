@@ -157,7 +157,7 @@
             text: "Perfectionist work",
             img_src: "spiral.svg",
             slide_timer: 700000,
-            img_classes: "flip-horizontal right-plus-50 extra-large",
+            img_classes: "flip-horizontal",
             image_position: "image-on-right",
             content: "I strive for as high quality of work as possible",
             subtext: "Perfection is not the enemy of good - especially digitally"
@@ -166,8 +166,8 @@
             text: "AI Integration Skills",
             img_src: "ai.svg",
             slide_timer: 700000,
-            image_position: "image-on-left",
-            img_classes: "rotate90 medium right-plus-50",
+            image_position: "image-on-bottom",
+            img_classes: "rotate90 medium right-plus-50 mobile-bottom",
             content: "Ensuring seamless AI integration into low-stakes codebases",
             subtext: "Boilerplate layers with Gemini/Claude have never been easier"
         },
@@ -176,7 +176,7 @@
             img_src: "spaghetti.svg",
             slide_timer: 900000,
             image_position: "image-on-right",
-            img_classes: "mega-large higher rotate90 mobile-smaller",
+            img_classes: "rotate90",
             content: "Extenive experience in un-tangling AI spaghetti code",
             subtext: "Wrangling AI-written code into replicability and maintainability"
         },
@@ -184,8 +184,8 @@
             text: "On-Site Infrastructure Developer",
             img_src: "virtual.svg",
             slide_timer: 11000,
-            image_position: "image-on-left",
-            img_classes: "larger right-plus-50 rotate90",
+            image_position: "image-on-bottom",
+            img_classes: "right-plus-50 rotate90",
             content: "I have skills deploying on-site compute machine clusters using QuemuVM and Kubernetes",
             subtext: "Hosting Local infrastrucure has never been more important in the days of Cloudflare outages"
         },
@@ -193,7 +193,7 @@
             text: "High-Scale Application Developer",
             img_src: "git.svg",
             slide_timer: 9000,
-            img_classes: "mega-large medium-higher rotate90",
+            img_classes: "rotate90",
             image_position: "image-on-right",
             content: "Constructing multi-level applications using SpringBoot, NodeJS, Flask",
             subtext: "Keeping track of every line of code is my passion"
@@ -203,7 +203,7 @@
             img_src: "chart.svg",
             slide_timer: 11000,
             image_position: "image-on-right",
-            img_classes: "meidum-high graph rotate90 right-minus-50",
+            img_classes: "rotate90",
             content: "R and Python allow me to contort data to my will",
             subtext: "Building visualisations is the most satisfying part of the job"
         }
@@ -222,11 +222,14 @@
     //load everything
     function loadslide() {
         const slide_framework = slides[current_slide];
-        const html_to_inject = `<div class="undercontent ${slide_framework.image_position}">
-                <h1 class="fill-half-width white-text">${slide_framework.text}</h1>
-                <img src="../img/${slide_framework.img_src}" class="content-img ${slide_framework.img_classes}".>
-                <h3 class="fill-half-width">${slide_framework.content}</h3>
-                <h4 class="fill-width">${slide_framework.subtext}</h3>
+        const html_to_inject =
+        `<div class="undercontent ${slide_framework.image_position}">
+        <div class="text-undercontent">
+        <h1 class="fill-half-width white-text">${slide_framework.text}</h1>
+        <h3 class="fill-half-width">${slide_framework.content}</h3>
+        <h4 class="fill-width">${slide_framework.subtext}</h3>
+        </div>
+        <img src="../img/${slide_framework.img_src}" class="content-img ${slide_framework.img_classes}".>
         </div>`
         document.querySelector('.content').innerHTML += html_to_inject;
     }
@@ -335,14 +338,14 @@
     function rollmenu() {
         var menu = document.querySelector('.only-mobile');
         let rotation = document.documentElement.style.getPropertyValue('--arrow-rotate');
-        if (rotation == '180deg') {
+        if (rotation == '0deg') {
             //closed;
             //so we open
-            document.documentElement.style.setProperty('--arrow-rotate', '0deg');
+            document.documentElement.style.setProperty('--arrow-rotate', '540deg');
             menu.style.transform = "translateY(-3%)";
         } else {
             //so we close
-            document.documentElement.style.setProperty('--arrow-rotate', '180deg');
+            document.documentElement.style.setProperty('--arrow-rotate', '0deg');
             menu.style.transform = "translateY(-80%)";
 
         }
