@@ -56,18 +56,29 @@
     </div>
 
     <div class="dropdown only-mobile">
-        <img src="../img/light.svg">
         <div class="element fill-width">
-            <a href="">
-                Download
-            </a>
-            my CV!
+            <a href="">Download</a>&nbsp;my CV!
         </div>
         <div class="element fill-width">
-            Find my on
+            Find me on&nbsp;
             <a href="https://linkedin.com">
                 LinkedIn!
             </a>
+        </div>
+        <div class="element fill-width">
+            Find my on&nbsp;
+            <a href="https://linkedin.com">
+                LinkedIn!
+            </a>
+        </div>
+        <div class="element fill-width">
+            Find my on&nbsp;
+            <a href="https://linkedin.com">
+                LinkedIn!
+            </a>
+        </div>
+        <div class="element roller" onclick="rollmenu()">
+
         </div>
     </div>
 
@@ -321,6 +332,23 @@
     function moveto(i) {
         current_slide = i;
         spinToSlide();
+    }
+
+    //only for mobile
+    function rollmenu() {
+        var menu = document.querySelector('.only-mobile');
+        let rotation = document.documentElement.style.getPropertyValue('--arrow-rotate');
+        if (rotation == '180deg') {
+            //closed;
+            //so we open
+            document.documentElement.style.setProperty('--arrow-rotate', '0deg');
+            menu.style.transform = "translateY(175%)";
+        } else {
+            //so we close
+            document.documentElement.style.setProperty('--arrow-rotate', '180deg');
+            menu.style.transform = "translateY(95%)";
+
+        }
     }
 
 </script>
