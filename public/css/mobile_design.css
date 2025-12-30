@@ -170,7 +170,7 @@
     #lantern {
         position: relative;
         z-index: 111;
-        top:5vh;
+        top: 5vh;
         width: 100%;
     }
 
@@ -455,7 +455,7 @@
         text-align: center;
 
 
-        font-size: 15px;
+        font-size: 20px;
         background-color: transparent;
         line-height: 30px;
         display: flex;
@@ -463,6 +463,14 @@
         justify-content: center;
         height: 100%;
         text-decoration: underline;
+    }
+
+    .element>a {
+        color: rgb(209, 113, 3);
+    }
+
+    .element>a:visited{
+        color: rgb(158, 86, 4);
     }
 
 
