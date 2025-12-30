@@ -136,6 +136,10 @@
         max-height: 50%;
         left: -25%;
         height: 100%;
+        top: -15%;
+    }
+    .mobile-higher{
+        top:-30% !important;
     }
 
 
@@ -484,5 +488,11 @@
 
         background-position: center;
         z-index: -1;
+    }
+
+
+    .mobile-extra-smaller {
+        max-width: 130% !important;
+        left: -12% !important;
     }
 }
