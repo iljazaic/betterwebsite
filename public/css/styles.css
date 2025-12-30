@@ -60,6 +60,13 @@ img {
 
 /*pre-builds*/
 
+
+.only-mobile{
+    visibility: hidden;
+    width: 100%;
+    height: 0%;
+}
+
 .override-pos-absolute {
     position: absolute !important;
 }

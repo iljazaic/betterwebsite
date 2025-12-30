@@ -42,6 +42,9 @@
         background-color: white;
     }
 
+
+
+
     /* Navigation arrows */
     .mover {
         height: 40vh !important;
@@ -424,5 +427,14 @@
         100% {
             transform: translateX(50vw);
         }
+    }
+
+    .only-mobile{
+        width: 100%;
+        visibility: visible;
+        height: 500px;
+        background-color: red;
+        position: relative;
+        top:40vh;
     }
 }
