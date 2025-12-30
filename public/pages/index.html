@@ -28,31 +28,11 @@
 
     </div>
     <div class="banner fill-width">
-        </span>
-        <span>
-            Check out my <a href="/projects/python">Python repositories</a>!
-        </span>
-        <span>
-            <a href="/files/resume.pdf">Download</a> my Resume!
-        </span>
-        <span>
-            Find me on <a href="https://linkedin.com/">LinkedIn</a>!
-        </span>
-        <span>
-            See more of my <a href="/projects">projects</a>
-        </span>
-        <span>
-            Check out my <a href="/projects/python">Python repositories</a>!
-        </span>
-        <span>
-            <a href="/files/resume.pdf">Download</a> my Resume!
-        </span>
-        <span>
-            Find me on <a href="https://linkedin.com/">LinkedIn</a>!
-        </span>
-        <span>
-            See more of my <a href="/projects">projects</a>
-        </span>
+        <a href="/projects/python">Project Gallery</a>
+        <a href="/files/resume.pdf">My Resume</a>
+        <a href="https://www.linkedin.com/in/ilja-zaicevs-748520387">LinkedIn</a>
+        <a href="/projects">GitHub</a>
+
     </div>
 
     <div class="dropdown only-mobile">
@@ -88,9 +68,6 @@
                 <span>
                     I am a Software Engineering Student At VIA UC, Denmark
                 </span>
-                <br />
-                <br />
-
                 <span>
                     And I have built some cool projects in my spare time
                 </span>
@@ -193,7 +170,7 @@
             text: "High-Scale Application Developer",
             img_src: "git.svg",
             slide_timer: 9000,
-            img_classes: "rotate90",
+            img_classes: "rotate90 tiny-bit-smaller",
             image_position: "image-on-right",
             content: "Constructing multi-level applications using SpringBoot, NodeJS, Flask",
             subtext: "Keeping track of every line of code is my passion"
@@ -203,7 +180,7 @@
             img_src: "chart.svg",
             slide_timer: 11000,
             image_position: "image-on-bottom",
-            img_classes: "rotate90 mobile-higher",
+            img_classes: "rotate90 mobile-higher medium-smaller",
             content: "R and Python allow me to contort data to my will",
             subtext: "Building visualisations is the most satisfying part of the job"
         }
@@ -223,7 +200,7 @@
     function loadslide() {
         const slide_framework = slides[current_slide];
         const html_to_inject =
-        `<div class="undercontent ${slide_framework.image_position}">
+            `<div class="undercontent ${slide_framework.image_position}">
         <div class="text-undercontent">
         <h1 class="fill-half-width white-text">${slide_framework.text}</h1>
         <h3 class="fill-half-width">${slide_framework.content}</h3>

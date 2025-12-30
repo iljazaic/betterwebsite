@@ -160,42 +160,38 @@ img {
 /*customs*/
 
 .banner {
-    height: 40px;
-    width: 200vw !important;
-    left: -100vw;
+    height: 50px;
+    width: 100vw !important;
+    left: 0vw;
     position: absolute;
-    line-height: 40px;
-    font-size: 25px;
-    transform: rotate(15deg);
+    line-height: 50px;
+    font-size: 30px;
     padding: 0;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    
     justify-content: space-evenly;
     background-color: #ffffff;
-    border: 5px solid rgb(00, 3, 44);
+    border: 5px solid rgb(255, 255, 255);
     color: #000000;
     top: 50%;
-    animation: slideRight 50s linear forwards infinite;
 }
 
-.banner>span {
+.banner>a {
     text-align: center;
+    border-right: 2px solid black;
 }
 
-.banner>span>a {
-    color: #000000;
+.banner>a:hover{
+    background-color: #000000;
+    cursor: pointer;
 }
 
-@keyframes slideRight {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(100vw);
-    }
+.banner>a {
+    color: rgb(255, 94, 0);
 }
+
 
 .mover {
     width: 10%;
@@ -441,6 +437,21 @@ img {
         max-height: 80% !important;
 
         top: 10%;
+    }
+
+
+    .tiny-bit-smaller {
+        max-width: 90% !important;
+        max-height: 90% !important;
+
+        top: 5%;
+    }
+
+
+    .medium-smaller{
+        max-width: 60% !important; 
+        max-height: 60% !important;
+        top:10%;
     }
 
     .skim-on-top {
