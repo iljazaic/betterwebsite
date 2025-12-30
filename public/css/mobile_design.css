@@ -170,6 +170,7 @@
     #lantern {
         position: relative;
         z-index: 111;
+        top:5vh;
         width: 100%;
     }
 
@@ -470,7 +471,7 @@
     }
 
     .roller {
-
+        background-color: white;
         border-bottom: 5px double rgb(0, 0, 0);
     }
 
