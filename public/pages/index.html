@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <title>Ilja Zaicevs</title>
-    <link rel="stylesheet" href="../css/styles.css?v=1.0">
-    <link rel="stylesheet" href="../css/mobile_design.css?v=1.0">
+    <link rel="stylesheet" href="Ilja%20Zaicevs_files/styles.css">
+    <link rel="stylesheet" href="Ilja%20Zaicevs_files/mobile_design.css">
 
-    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width,height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 
 <body>
@@ -15,43 +17,49 @@
     <div class="navDiv">
 
         <div id="slideshow-div">
-            <div onclick="movebck()" id="mv-bck" class="mover fill-height al-txt-cntr al-txt-mdl">
-                &lsaquo; </div>
-            <div class="fill-height al-txt-cntr content">
+            <div class="fill-height al-txt-cntr content"
+                style="width: 600vw; grid-template-columns: repeat(6, 100vw); transform: translateX(0vw);">
+                <div class="undercontent image-on-right">
+                    <div class="text-undercontent">
+                        <h1 class="fill-half-width white-text">Perfectionist work</h1>
+                        <h3 class="fill-half-width">I strive for as high quality of work as possible</h3>
+                        <h4 class="fill-width">Perfection is not the enemy of good - especially digitally</h4>
+                    </div>
+                    <img src="Ilja%20Zaicevs_files/spiral.svg" class="content-img flip-horizontal invert-height-width"
+                        .="">
+                </div>
             </div>
-            <div class="dot-holder fill-width al-txt-cntr al-txt-btm horizontal-flex override-pos-absolute">
-            </div>
-            <div id="mv-fwr" onclick="movefw()" class="mover fill-height al-txt-cntr al-txt-mdl">
-                &rsaquo; </div>
         </div>
-
     </div>
     <div class="banner fill-width">
-        </span>
-        <span>
-            Check out my <a href="/projects/python">Python repositories</a>!
-        </span>
-        <span>
-            <a href="/files/resume.pdf">Download</a> my Resume!
-        </span>
-        <span>
-            Find me on <a href="https://linkedin.com/">LinkedIn</a>!
-        </span>
-        <span>
-            See more of my <a href="/projects">projects</a>
-        </span>
-        <span>
-            Check out my <a href="/projects/python">Python repositories</a>!
-        </span>
-        <span>
-            <a href="/files/resume.pdf">Download</a> my Resume!
-        </span>
-        <span>
-            Find me on <a href="https://linkedin.com/">LinkedIn</a>!
-        </span>
-        <span>
-            See more of my <a href="/projects">projects</a>
-        </span>
+        <a href="http://localhost:8080/projects/python">Project Gallery</a>
+        <a href="http://localhost:8080/files/resume.pdf">My Resume</a>
+        <a href="https://www.linkedin.com/in/ilja-zaicevs-748520387">LinkedIn</a>
+        <a href="http://localhost:8080/projects">GitHub</a>
+    </div>
+
+    <div class="dropdown only-mobile">
+        <div class="element fill-width">
+            <a href="http://localhost:8080/public/Ilja_Zaicevs_Resume.pdf">My Resume</a>
+        </div>
+        <div class="element fill-width">
+            <a href="https://www.linkedin.com/in/ilja-zaicevs-748520387">
+                LinkedIn
+            </a>
+        </div>
+        <div class="element fill-width">
+            <a href="https://github.com/iljazaic">
+                GitHub
+            </a>
+        </div>
+        <div class="element fill-width">
+            <a href="">
+                Oxford Diplomas
+            </a>
+        </div>
+        <div class="element roller" onclick="rollmenu()">
+
+        </div>
     </div>
 
     <div class="mainDiv">
@@ -63,9 +71,6 @@
                 <span>
                     I am a Software Engineering Student At VIA UC, Denmark
                 </span>
-                <br />
-                <br />
-
                 <span>
                     And I have built some cool projects in my spare time
                 </span>
@@ -75,9 +80,32 @@
 
         </div>
 
-
         <div class="ghost">
 
+            <div class="box active"> <a href="http://localhost:8080/projects/datagath">
+                    <h1>Datagath Automation Project</h1>
+                </a> <img src="Ilja%20Zaicevs_files/ramjar.png">
+                <p>Here I describe the process of me building a system to automate datagathering with simple URL API
+                    endpoints</p>
+            </div>
+            <div class="box active"> <a href="http://localhost:8080/projects/load-balancer">
+                    <h1>Overcoming NAT with custom Authenticator</h1>
+                </a> <img src="Ilja%20Zaicevs_files/natpass.svg">
+                <p>To
+                    get remote access to multiple VMs behind a single NAT address I had to
+                    build my own semi-custom 'Load Balancer' and authentication method</p>
+            </div>
+            <div class="box mobile-rotate-90 silly-format active"> <a href="http://localhost:8080/projects/geo">
+                    <h1>Reverse-Engineering Geoguessr</h1>
+                </a> <img src="Ilja%20Zaicevs_files/mask.png">
+                <p>As a fun side challenge I decided to build a free Geoguessr version for personal use</p>
+            </div>
+            <div class="box active"> <a href="http://localhost:8080/projects/data-guessr">
+                    <h1>Python and R solutions to large datasets</h1>
+                </a> <img src="Ilja%20Zaicevs_files/chart_small.svg">
+                <p>Here I will show off my WIP data guessing game, and the huge data analysis work that goes into
+                    gathering the data</p>
+            </div>
         </div>
 
     </div>
@@ -85,227 +113,7 @@
 
 
 
+
 </body>
-
-<script>
-
-
-
-
-    const projects = [
-        {
-            name: "Datagath Automation Project",
-            img_src: "ramjar.svg",
-            box_classes: "",
-            ref: "/projects/datagath",
-            paragraph: "Here I describe the process of me building a system to automate datagathering with simple URL API endpoints",
-            tags: ["Servers", "Networking", "Automation", "Java", "SQL", "Linux/UNIX"]
-        },
-        {
-            name: "Overcoming NAT with custom Authenticator",
-            img_src: "natpass.svg",
-            box_classes: "",
-            ref: "/projects/load-balancer",
-            paragraph: "To get remote access to multiple VMs behind a single NAT address I had to build my own semi-custom 'Load Balancer' and authentication method",
-            tags: ["Servers", "Networking", "Python", "Linux/UNIX"],
-        },
-        {
-            name: "Reverse-Engineering Geoguessr",
-            img_src: "mask.png",
-            box_classes: "mobile-rotate-90 silly-format",
-            ref: "projects/geo",
-            paragraph: "As a fun side challenge I decided to build a free Geoguessr version for personal use",
-            tags: ["Python", "Machine Learning", "Linux/UNIX"]
-        },
-        {
-            name: "Python and R solutions to large datasets",
-            img_src: "chart_small.svg",
-            box_classes: "",
-            ref: "/projects/data-guessr",
-            paragraph: "Here I will show off my WIP data guessing game, and the huge data analysis work that goes into gathering the data",
-            tags: ["Python", "R", "Data Analysis"]
-        }
-    ]
-
-    const slides = [
-        {
-            text: "Perfectionist work",
-            img_src: "spiral.svg",
-            slide_timer: 700000,
-            img_classes: "flip-horizontal right-plus-50 extra-large",
-            image_position: "image-on-right",
-            content: "I strive for as high quality of work as possible",
-            subtext: "Perfection is not the enemy of good - especially digitally"
-        },
-        {
-            text: "AI Integration Skills",
-            img_src: "ai.svg",
-            slide_timer: 700000,
-            image_position: "image-on-left",
-            img_classes: "rotate90 medium right-plus-50",
-            content: "Ensuring seamless AI integration into low-stakes codebases",
-            subtext: "Boilerplate layers with Gemini/Claude have never been easier"
-        },
-        {
-            text: "Untangling AI spaghetti code",
-            img_src: "spaghetti.svg",
-            slide_timer: 900000,
-            image_position: "image-on-right",
-            img_classes: "mega-large higher rotate90 mobile-smaller",
-            content: "Extenive experience in un-tangling AI spaghetti code",
-            subtext: "Wrangling AI-written code into replicability and maintainability"
-        },
-        {
-            text: "On-Site Infrastructure Developer",
-            img_src: "virtual.svg",
-            slide_timer: 11000,
-            image_position: "image-on-left",
-            img_classes: "larger right-plus-50 rotate90",
-            content: "I have skills deploying on-site compute machine clusters using QuemuVM and Kubernetes",
-            subtext: "Hosting Local infrastrucure has never been more important in the days of Cloudflare outages"
-        },
-        {
-            text: "High-Scale Application Developer",
-            img_src: "git.svg",
-            slide_timer: 9000,
-            img_classes: "mega-large medium-higher rotate90",
-            image_position: "image-on-right",
-            content: "Constructing multi-level applications using SpringBoot, NodeJS, Flask",
-            subtext: "Keeping track of every line of code is my passion"
-        },
-        {
-            text: "Data Analysis Is My Passion",
-            img_src: "chart.svg",
-            slide_timer: 11000,
-            image_position: "image-on-right",
-            img_classes: "meidum-high graph rotate90 right-minus-50",
-            content: "R and Python allow me to contort data to my will",
-            subtext: "Building visualisations is the most satisfying part of the job"
-        }
-    ]
-
-
-
-    var current_slide = 0;
-    const last_slide = slides.length - 1;
-    document.addEventListener('dragstart', e => {
-        if (e.target.tagName === 'IMG') {
-            e.preventDefault();
-        }
-    });
-
-    //load everything
-    function loadslide() {
-        const slide_framework = slides[current_slide];
-        const html_to_inject = `<div class="undercontent ${slide_framework.image_position}">
-                <h1 class="fill-half-width white-text">${slide_framework.text}</h1>
-                <img src="../img/${slide_framework.img_src}" class="content-img ${slide_framework.img_classes}".>
-                <h3 class="fill-half-width">${slide_framework.content}</h3>
-                <h4 class="fill-width">${slide_framework.subtext}</h3>
-        </div>`
-        document.querySelector('.content').innerHTML += html_to_inject;
-    }
-
-
-    function loadScreen() {
-        //load dots;
-        document.querySelector(".content").style.width = `${slides.length*100}vw`;
-        document.querySelector(".content").style.gridTemplateColumns = `repeat(${slides.length}, 100vw)`;
-
-        //load all the slide presets to html
-        for (let i = 0; i < slides.length; i++) {
-            var c = i == current_slide ? "active" : "";
-            document.querySelector(".dot-holder").innerHTML += `<div onclick="moveto(${i})" id="dot${i}" class="${c}"></div>`
-            //load slides in
-            current_slide = i;
-            loadslide();
-        }
-        current_slide = 0;
-        setTimeout(() => {
-
-            recursiveAutoFlip();
-
-        }, slides[0].slide_timer);
-
-
-        //load all the project boxes to html
-
-        for (let i = 0; i < projects.length; i++) {
-            document.querySelector('.ghost').innerHTML += `<div class='box ${projects[i].box_classes}'> <a href='${projects[i].ref}'><h1>${projects[i].name}</h1></a> <img src="../img/${projects[i].img_src}"/> <p>${projects[i].paragraph}</p> </div>`;
-        }
-    }
-
-
-
-
-
-    //interact with the slides
-    function spinToSlide() {
-        document.querySelector(".active")?.classList.remove("active");
-        document.querySelector("#dot" + current_slide)?.classList.add("active");
-
-        document.querySelector('.content').style.transform =
-            `translateX(-${current_slide * 100}vw)`;
-    }
-
-    function movefw() {
-        if (current_slide == last_slide) {
-            current_slide = 0;
-        } else {
-            current_slide++;
-        }
-        spinToSlide();
-    }
-
-    function movebck() {
-        if (current_slide == 0) {
-            current_slide = last_slide;
-        } else {
-            current_slide--;
-        }
-        spinToSlide();
-    }
-    const delay = ms => new Promise(res => setTimeout(res, ms));
-
-    async function recursiveAutoFlip() {
-        movefw();
-        spinToSlide();
-
-        await delay(slides[current_slide].slide_timer);
-
-        recursiveAutoFlip();
-    }
-
-    loadScreen();
-
-
-
-    const reveals = document.querySelectorAll('.box');
-
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const index = [...reveals].indexOf(entry.target);
-
-                    setTimeout(() => {
-                        entry.target.classList.add('active');
-                    }, index * 150);
-
-                    observer.unobserve(entry.target); // run once
-                }
-            });
-        },
-        { threshold: 0.1 }
-    );
-
-    reveals.forEach((el) => observer.observe(el));
-
-    function moveto(i) {
-        current_slide = i;
-        spinToSlide();
-    }
-
-</script>
 
 </html>
