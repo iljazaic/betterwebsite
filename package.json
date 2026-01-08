@@ -7,10 +7,13 @@
     "start": "node server.js",
     "dev": "node server.js"
   },
-  "keywords": ["portfolio", "website"],
+  "keywords": [
+    "portfolio",
+    "website"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.22.1"
   }
 }
