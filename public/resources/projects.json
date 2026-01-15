@@ -75,18 +75,35 @@
                 "content": "Of cource, the issue of someone coming across and using the link for themselves is still present. The ID would protect the link just as an API token, but using it on the client side of any application would instantly mean a potential spam attack vector. Currently, I am in the process of building a method to rate-limit link interactions, as well as IP-range white/black-list the endpoints."
             }
         ]
-    },{
-        "projectName":"cssh",
-        "officialName":"Multi-VM SSH through NAT",
-        "github":"https://github.com/iljazaic/dc-vps",
-        "structure":[
+    },
+    {
+        "projectName": "cssh",
+        "officialName": "Multi-VM SSH through NAT",
+        "github": "https://github.com/iljazaic/dc-vps",
+        "structure": [
             {
-                "tag":"p",
-                "content":"My home server is hosting multiple VMs. However, directly SSH-ing into each one is an afwul lot to manage, especially with IPV4 NATs only letting me use one public address. So I have decided to build a small authenticator script to identify VMs by the SHA256 fingerpints and signatures, and re-route the SSH traffic into the correct machine and the correct VM."
+                "tag": "p",
+                "content": "My home server is hosting multiple VMs. However, directly SSH-ing into each one is an afwul lot to manage, especially with IPV4 NATs only letting me use one public address. So I have decided to build a small authenticator script to identify VMs by the SHA256 fingerpints and signatures, and re-route the SSH traffic into the correct machine and the correct VM."
             },
             {
-                "tag":"p",
-                "content":"Firstly, if you are wondering why would I simply not use a Kubernetes or Docker cluster, I have to mention that I also lend some of my VMs to friends and classmates who lack the compute space and have exhausted free trials on VPS providers. Essentially, my little homelab has been converted into a full-fledged VPS service, only operating behind a NAT. Research has shown that these systems are possible, but they require quite too much work from the users to my liking. Therefore, I have decided to use the ssh key fingerprints as sort of IDs to a hashmap"
+                "tag": "img",
+                "src": "/img/cssh/hardware.png",
+                "alt": "Hardware Setup",
+                "sub": "fig.1 - Diagram of my Hardware Setup"
+            },
+            {
+                "tag": "p",
+                "content": "Firstly, if you are wondering why would I simply not use a Kubernetes or Docker cluster, I have to mention that I also lend some of my VMs to friends and classmates who lack the compute space and have exhausted free trials on VPS providers. Essentially, my little homelab has been converted into a full-fledged VPS service, only operating behind a NAT. Research has shown that these systems are possible, but they require quite too much work from the users to my liking. Therefore, I have decided to use the ssh key fingerprints as sort of IDs to a hashmap"
+            },
+            {
+                "tag": "img",
+                "src": "/img/cssh/sequence.png",
+                "alt": "SSH connection Sequence",
+                "sub": "fig.2 - SSH connection sequence diagram"
+            },
+            {
+                "tag": "p",
+                "content": "In fig.1 you can see how the setup process was slightly complicated. There are 2 separate SSH sessions, one initiated by the user, and another, by the gateway machine, to the correct host machine, forwarded to the correct VM"
             }
         ]
     }
