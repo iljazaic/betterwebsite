@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ilja Zaicevs - Projects</title>
+</head>
+
+<style>
+    .mainDiv {
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mainDiv>div {
+        width: 100%;
+        position: relative;
+        background-color: red;
+        height: 100%;
+    }
+</style>
+
+<body>
+    <div class="mainDiv">
+
+    </div>
+</body>
+
+
+<script>
+
+
+
+
+    const projects = [
+        {
+            name: "Datagath Automation Project",
+            img_src: "ramjar.png",
+            box_classes: "",
+            ref: "/projects/datagath",
+            paragraph: "Here I describe the process of me building a system to automate datagathering with simple URL API endpoints",
+            tags: ["Servers", "Networking", "Automation", "Java", "SQL", "Linux/UNIX"]
+        },
+        {
+            name: "Overcoming NAT with custom Authenticator",
+            img_src: "natpass.svg",
+            box_classes: "",
+            ref: "/projects/load-balancer",
+            paragraph: "To get remote access to multiple VMs behind a single NAT address I had to build my own semi-custom 'Load Balancer' and authentication method",
+            tags: ["Servers", "Networking", "Python", "Linux/UNIX"],
+        },
+        {
+            name: "Reverse-Engineering Geoguessr",
+            img_src: "mask.png",
+            box_classes: "mobile-rotate-90 silly-format",
+            ref: "projects/geo",
+            paragraph: "As a fun side challenge I decided to build a free Geoguessr version for personal use",
+            tags: ["Python", "Machine Learning", "Linux/UNIX"]
+        },
+        {
+            name: "Python and R solutions to large datasets",
+            img_src: "chart_small.svg",
+            box_classes: "",
+            ref: "/projects/data-guessr",
+            paragraph: "Here I will show off my WIP data guessing game, and the huge data analysis work that goes into gathering the data",
+            tags: ["Python", "R", "Data Analysis"]
+        }
+    ]
+
+
+    const div = document.querySelector('.mainDiv');
+    div.style.gridTemplateColumns = `repeat(${Math.ceil(projects.length / 2)},1fr)`;
+
+    projects.forEach(p => {
+        document.querySelector('.mainDiv').innerHTML += `
+        <div class="project">${p.name}</div>
+
+        `
+    });
+
+
+    function loadProjectCard() {
+
+    }
+</script>
+
+</html>

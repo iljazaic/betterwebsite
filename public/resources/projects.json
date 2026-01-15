@@ -1,0 +1,93 @@
+[
+    {
+        "projectName": "datagath",
+        "officialName": "The Datagath Project",
+        "github": "https://github.com/iljazaic/gather_data_thing",
+        "structure": [
+            {
+                "tag": "p",
+                "content": "When I confronted a need to automate data gathering from my websites with simple URL endpoints, I came to the sad conclusion that no FOSS resource like this exists - that I could find. To be honest, I jump at the opportunity to build something actually useful for myself, for which reason I have started, and still am in the process of developing, the small Datagath application."
+            },
+            {
+                "tag": "p",
+                "content": "For reasons of security, I my framework of choice ended up being Java Spring. The project itself had two main components: Collection Tables and Scheduled Events. The first provides the user the ability to create a custom database table, with any number of columns of various types. The second is a tool that allows the users to schedule events using CRON expressions, and to have those events perform a task from the provided list. The intended use of these tools is analytics and small-scale automation. "
+            },
+            {
+                "tag": "img",
+                "src": "/img/datagath/sequence.png",
+                "sub": "fig.1 - Collection Table creation diagram",
+                "alt": "Collection Table Creation Sequence"
+            },
+            {
+                "tag": "p",
+                "content": "I have decided to first construct a sequence diagram (using sequencediagram.org) for the basic interactions of the user and the tables of collected data. This was an important step due to the possibility of data sensitivity - last thing I would want is an SQL leak. Therefore, as you can see in fig. 1, the MySQL Server layer is separated from the user by a special class, acting as a reference to the actual table on the server. All in all, I am keeping an SQL table of table IDs, which is used to look up against any incoming API traffic, and if found, the data provided is inserted into the actual table via a separate service/class."
+            },
+            {
+                "tag": "img",
+                "src": "/img/datagath/tablecreation.png",
+                "sub": "fig.2 - Collection Table creation UI",
+                "alt": "Collection Table creation WebUI"
+            },
+            {
+                "tag": "p",
+                "content": "Now, to the actual code and solutions to various problems. Firstly, I want the tables to be accessible via URL, meaning the tables actually have to have unique identifiers. This is why the table class looks like this"
+            },
+            {
+                "tag": "pre",
+                "sub": "fig.3 - Defining Collection Table",
+                "content": "@Entity\npublic class CollectionTable {\n\t@Id\n\tprivate String id;\n\tprivate String name;\n\tprivate Long ownerId;\n\tprivate String url;\n\tpublic CollectionTable(String name, Long ownerId, String datatype) {\n\t\tthis.id = UUID.randomUUID().toString();\n\t\tthis.name = name;\n\t\tthis.ownerId = ownerId;\n\t};"
+            },
+            {
+                "tag": "p",
+                "content": "If I ever get to Hibernate encryption, it would also create a potential layer of security for the users' data, as the Java class effectively acts as a proxy/metadata for the actual data, and there is no way to relate the data in the SQL tables to a user without the Hibernate-managed entity associated with the table."
+            },
+            {
+                "tag": "img",
+                "src": "/img/datagath/dashboard.png",
+                "sub": "fig.4 - Final Dashboard",
+                "alt": "Datagath Dashboard Example"
+            },
+            {
+                "tag": "p",
+                "content": "Here you may see an example of a dashboard and a collection table - with an activity chart, no less! A very useful small indicator that, for some reason, took more lines of code to write than almost any piece of architecture in the project."
+            },
+            {
+                "tag": "pre",
+                "sub": "fig.5 - Bucketing and generating last activity",
+                "content": "public int[] getActivity(CollectionTable table, String timeframe) {\n\tString sql;\n\tint[] buckets;\n\tswitch (timeframe) {\n\t\tcase \"hour\":\n\t\t\tsql = \"SELECT FLOOR(TIMESTAMPDIFF(MINUTE, tmstp, NOW()) / 5) AS bucket, COUNT(*) AS cnt FROM `%s` WHERE tmstp > NOW() - INTERVAL 1 HOUR GROUP BY bucket\".formatted(table.getId());\n\t\t\tbuckets = new int[12];\n\t\t\tbreak;\n\t\tcase \"week\":\n\t\t\tsql = \"SELECT FLOOR(TIMESTAMPDIFF(DAY, tmstp, NOW()) / 1) AS bucket, COUNT(*) AS cnt FROM `%s` WHERE tmstp > NOW() - INTERVAL 7 DAY GROUP BY bucket\".formatted(table.getId());\n\t\t\tbuckets = new int[7];\n\t\t\tbreak;\n\t\tcase \"month\":\n\t\t\tsql = \"SELECT FLOOR(TIMESTAMPDIFF(DAY, tmstp, NOW()) / 1) AS bucket, COUNT(*) AS cnt FROM `%s` WHERE tmstp > NOW() - INTERVAL 30 DAY GROUP BY bucket\".formatted(table.getId());\n\t\t\tbuckets = new int[30];\n\t\t\tbreak;\n\t\tcase \"day\":\n\t\tdefault:\n\t\t\tsql = \"SELECT FLOOR(TIMESTAMPDIFF(HOUR, tmstp, NOW()) / 1) AS bucket, COUNT(*) AS cnt FROM `%s` WHERE tmstp > NOW() - INTERVAL 1 DAY GROUP BY bucket\".formatted(table.getId());\n\t\t\tbuckets = new int[24];\n\t\t\tbreak;\n\t}\n\tQuery query = entityManager.createNativeQuery(sql);\n\t@SuppressWarnings(\"unchecked\")\n\tList<Object[]> resultsText = query.getResultList();\n\tfor (Object[] row : resultsText) {\n\t\tInteger bucket = ((Number) row[0]).intValue();\n\t\tInteger count = ((Number) row[1]).intValue();\n\t\tint position = buckets.length - 1 - bucket;\n\t\tif (position >= 0 && position < buckets.length) {\n\t\t\tbuckets[position] = count;\n\t\t}\n\t}\n\treturn buckets;\n}"
+            },
+            {
+                "tag": "p",
+                "content": "As can be seen in fig. 5, the data for the last couple days is split into buckets and then sorted accordingly to be displayed via an array. There are also more visualisation methods availiable that can be seen on the control panel for the specific table."
+            },
+            {
+                "tag": "img",
+                "src": "/img/datagath/controlpanel.png",
+                "sub": "fig.5 - DemoTable Control Panel",
+                "alt": "Demo Table Control Panel"
+            },
+            {
+                "tag": "p",
+                "content": "This however also shows the prebuilt pieces of code for integrating the URL/API into a project of ones choice. This is made to be quickly copied and pasted into essentially any project."
+            },
+            {
+                "tag": "p",
+                "content": "Of cource, the issue of someone coming across and using the link for themselves is still present. The ID would protect the link just as an API token, but using it on the client side of any application would instantly mean a potential spam attack vector. Currently, I am in the process of building a method to rate-limit link interactions, as well as IP-range white/black-list the endpoints."
+            }
+        ]
+    },{
+        "projectName":"cssh",
+        "officialName":"Multi-VM SSH through NAT",
+        "github":"https://github.com/iljazaic/dc-vps",
+        "structure":[
+            {
+                "tag":"p",
+                "content":"My home server is hosting multiple VMs. However, directly SSH-ing into each one is an afwul lot to manage, especially with IPV4 NATs only letting me use one public address. So I have decided to build a small authenticator script to identify VMs by the SHA256 fingerpints and signatures, and re-route the SSH traffic into the correct machine and the correct VM."
+            },
+            {
+                "tag":"p",
+                "content":"Firstly, if you are wondering why would I simply not use a Kubernetes or Docker cluster, I have to mention that I also lend some of my VMs to friends and classmates who lack the compute space and have exhausted free trials on VPS providers. Essentially, my little homelab has been converted into a full-fledged VPS service, only operating behind a NAT. Research has shown that these systems are possible, but they require quite too much work from the users to my liking. Therefore, I have decided to use the ssh key fingerprints as sort of IDs to a hashmap"
+            }
+        ]
+    }
+]

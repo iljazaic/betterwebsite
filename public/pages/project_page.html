@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ilja Zaicevs</title>
+    <link rel="stylesheet" href="../css/styles.css?v=2.1">
+    <link rel="stylesheet" href="../css/mobile_design.css?v=1.1.2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+
+
+    <meta name="viewport"
+        content="width=device-width,height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+
+<body style="background-color: rgb(0, 0, 0); color: white;">
+    <div class="title">
+        <h1 id="title">
+            --title--
+        </h1>
+        <a href="/">Back</a>
+        <a id="gh">GitHub</a>
+
+    </div>
+    <div class="mainDiv" style="background-color: black;">
+
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script>
+
+
+    function zoom(el) {
+        console.log(el.style.transform)
+        if (el.style.transform !== "scale(2)") {
+            el.style.transform = "scale(2)";
+            el.style.zIndex = "100"
+        } else {
+            el.style.transform = "scale(1)";
+        }
+    }
+
+
+    async function loadProject() {
+        const pathParts = window.location.pathname.split('/');
+        const projectName = pathParts[pathParts.length - 1].replace('.html', '');
+        try {
+            const response = await fetch('/resources/projects.json');
+            const projects = await response.json();
+            const project = projects.find(p => p.projectName === projectName);
+
+            if (!project) {
+                document.querySelector('.mainDiv').innerHTML = '<p>Project not found</p>';
+                return;
+            }
+
+            document.querySelector("#title").innerText = project.officialName;
+            document.querySelector("#gh").setAttribute("href", project.github);
+
+            let html = '';
+            project.structure.forEach(item => {
+                if (item.tag === 'pre') {
+                    html += `<pre><code class="language-java">${escapeHtml(item.content)}</code></pre>`;
+                    if (item.sub) html += `<p class="figure-sub">${escapeHtml(item.sub)}</p>`;
+                } else if (item.tag === 'img') {
+                    html += `<img onclick="zoom(this)" src="${item.src}" alt="${item.alt}">`;
+                    if (item.sub) html += `<p class="figure-sub">${escapeHtml(item.sub)}</p>`;
+                } else if (item.tag === 'code') {
+                    html += `<code class="language-java">${escapeHtml(item.content)}</code>`;
+                    if (item.sub) html += `<p class="figure-sub">${escapeHtml(item.sub)}</p>`;
+                } else {
+                    html += `<${item.tag}>${escapeHtml(item.content)}</${item.tag}>`;
+                }
+            });
+
+            document.querySelector('.mainDiv').innerHTML = html;
+
+            // Call Prism AFTER content is inserted
+            Prism.highlightAll();
+
+        } catch (error) {
+            console.error('Error loading project:', error);
+            document.querySelector('.mainDiv').innerHTML = '<p>Error loading project</p>';
+        }
+    }
+
+    function escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    // Load project when page loads
+    document.addEventListener('DOMContentLoaded', loadProject);
+</script>
+
+</html>
