@@ -425,6 +425,7 @@ img {
     position:absolute;
 }
 .sideimage>img{
+    visibility: hidden;
     height: 100%;
     top:10%;
     position: absolute;
