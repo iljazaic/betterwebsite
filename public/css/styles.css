@@ -434,7 +434,7 @@ img {
     right: 0;
     transform: scale(-1,1);
 }
-@media (min-width: 1400px) {
+@media (max-width: 1400px) {
     .sideimage{
         visibility: hidden;
     }
