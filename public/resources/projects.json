@@ -34,6 +34,7 @@
             },
             {
                 "tag": "pre",
+                "lang": "java",
                 "sub": "fig.3 - Defining Collection Table",
                 "content": "@Entity\npublic class CollectionTable {\n\t@Id\n\tprivate String id;\n\tprivate String name;\n\tprivate Long ownerId;\n\tprivate String url;\n\tpublic CollectionTable(String name, Long ownerId, String datatype) {\n\t\tthis.id = UUID.randomUUID().toString();\n\t\tthis.name = name;\n\t\tthis.ownerId = ownerId;\n\t};"
             },
@@ -53,6 +54,7 @@
             },
             {
                 "tag": "pre",
+                "lang": "java",
                 "sub": "fig.5 - Bucketing and generating last activity",
                 "content": "public int[] getActivity(CollectionTable table, String timeframe) {\n\tString sql;\n\tint[] buckets;\n\tswitch (timeframe) {\n\t\tcase \"hour\":\n\t\t\tsql = \"SELECT FLOOR(TIMESTAMPDIFF(MINUTE, tmstp, NOW()) / 5) AS bucket, COUNT(*) AS cnt FROM `%s` WHERE tmstp > NOW() - INTERVAL 1 HOUR GROUP BY bucket\".formatted(table.getId());\n\t\t\tbuckets = new int[12];\n\t\t\tbreak;\n\t\tcase \"week\":\n\t\t\tsql = \"SELECT FLOOR(TIMESTAMPDIFF(DAY, tmstp, NOW()) / 1) AS bucket, COUNT(*) AS cnt FROM `%s` WHERE tmstp > NOW() - INTERVAL 7 DAY GROUP BY bucket\".formatted(table.getId());\n\t\t\tbuckets = new int[7];\n\t\t\tbreak;\n\t\tcase \"month\":\n\t\t\tsql = \"SELECT FLOOR(TIMESTAMPDIFF(DAY, tmstp, NOW()) / 1) AS bucket, COUNT(*) AS cnt FROM `%s` WHERE tmstp > NOW() - INTERVAL 30 DAY GROUP BY bucket\".formatted(table.getId());\n\t\t\tbuckets = new int[30];\n\t\t\tbreak;\n\t\tcase \"day\":\n\t\tdefault:\n\t\t\tsql = \"SELECT FLOOR(TIMESTAMPDIFF(HOUR, tmstp, NOW()) / 1) AS bucket, COUNT(*) AS cnt FROM `%s` WHERE tmstp > NOW() - INTERVAL 1 DAY GROUP BY bucket\".formatted(table.getId());\n\t\t\tbuckets = new int[24];\n\t\t\tbreak;\n\t}\n\tQuery query = entityManager.createNativeQuery(sql);\n\t@SuppressWarnings(\"unchecked\")\n\tList<Object[]> resultsText = query.getResultList();\n\tfor (Object[] row : resultsText) {\n\t\tInteger bucket = ((Number) row[0]).intValue();\n\t\tInteger count = ((Number) row[1]).intValue();\n\t\tint position = buckets.length - 1 - bucket;\n\t\tif (position >= 0 && position < buckets.length) {\n\t\t\tbuckets[position] = count;\n\t\t}\n\t}\n\treturn buckets;\n}"
             },
@@ -73,6 +75,10 @@
             {
                 "tag": "p",
                 "content": "Of cource, the issue of someone coming across and using the link for themselves is still present. The ID would protect the link just as an API token, but using it on the client side of any application would instantly mean a potential spam attack vector. Currently, I am in the process of building a method to rate-limit link interactions, as well as IP-range white/black-list the endpoints."
+            },
+            {
+                "tag": "p",
+                "content": "THANK YOU FOR READING"
             }
         ]
     },
@@ -93,7 +99,7 @@
             },
             {
                 "tag": "p",
-                "content": "Firstly, if you are wondering why would I simply not use a Kubernetes or Docker cluster, I have to mention that I also lend some of my VMs to friends and classmates who lack the compute space and have exhausted free trials on VPS providers. Essentially, my little homelab has been converted into a full-fledged VPS service, only operating behind a NAT. Research has shown that these systems are possible, but they require quite too much work from the users to my liking. Therefore, I have decided to use the ssh key fingerprints as sort of IDs to a hashmap"
+                "content": "As always before actually building the software, I spent a good day or two mapping out the requests and their sources/destinations (using sequencediagram.org). This resulted in a rather complicated layered cake of trust - the reason behind which was mostly the fact that I have been lending compute space from my machines to my friends and classmates who have burned through AWS and Azure free plans."
             },
             {
                 "tag": "img",
@@ -104,6 +110,266 @@
             {
                 "tag": "p",
                 "content": "In fig.1 you can see how the setup process was slightly complicated. There are 2 separate SSH sessions, one initiated by the user, and another, by the gateway machine, to the correct host machine, forwarded to the correct VM"
+            },
+            {
+                "tag": "p",
+                "content": "This setup, however, essentially has the Gateway act as a MITM, being able to decrypt any traffic into plaintext due to the double-ssh connection. I am currently working on a system ensuring zero-trust on each layer, while keeping the fingerprint auth, however that would undoubtedly worsen the UX of connecting. Perfect for letting others use VMs without fears of malicios activity - effectively turning my local network into a VPS service. Nice idea for later."
+            },
+            {
+                "tag": "h1",
+                "content": "Key Features"
+            },
+            {
+                "tag": "h3",
+                "classes": "complete",
+                "content": "Minimal user action - `ssh ljzcvs.dev` should connect the user directly"
+            },
+            {
+                "tag": "h3",
+                "classes": "complete",
+                "content": "Cryptograhic dispersion - both SSH tunnels encoded by the User"
+            },
+            {
+                "tag": "h3",
+                "classes": "complete",
+                "content": "Fingerprint as ID - Using Private Key fingerprint as IDs to match users to VMs"
+            },
+            {
+                "tag": "p",
+                "content": "First thing on the agenda is making sure the script to write the Python script to select the correct VM and build a connection to it. To be honest, I expected it to be much more difficult.."
+            },
+            {
+                "tag": "pre",
+                "lang": "python",
+                "content": "#!/usr/bin/env python3\nimport sys\\nfingerprint = sys.argv[1]\ntarget = get_vm_information(fingerprint)#runs db query\nif target:\n    routing_cmd = f\"ssh -o StrictHostKeyChecking=no -W {target['vm_ip']}:22 user@{target['host_ip']}\"\n    print(f'command=\"{routing_cmd}\",no-port-forwarding {target[\"pubkey\"]}')",
+                "sub": "fig.3 - ssh_router.py"
+            },
+            {
+                "tag": "p",
+                "content": "However, this is just the beginning of the setup. Of course, deploying the MySQL server on the Gateway will be ommited, as it is essentially just a hashmap. The next step in managing this nightmare will be passing the information back to the user who has initiated the request."
+            },
+            {
+                "tag": "p",
+                "content": "The main issue of this setup is the complete lack of safety in case of an MITM attack. This setup is entirely transparent to anyone on the Gateway machine, due to the double-ssh setup. I have so far built this for my personal, and friends who trust me, use, and plan to re-model the entire setup using a more sophistcated Server Name Indication service to allow people who trust me less to use this service."
+            },
+            {
+                "tag": "p",
+                "content": "THANK YOU FOR READING"
+            }
+        ]
+    },
+    {
+        "projectName": "geo",
+        "officialName": "Reverse-Engineering GeoGuessr",
+        "github": "https://github.com/iljazaic/GeoguessrClone",
+        "structure": [
+            {
+                "tag": "p",
+                "content": "The Google Maps API is an interesting thing to watch develop over the years. From a nearly free service with limited capability, it has started paywalling its more sophisticated features - making this project a more interesting endevour, as I find ways to overcome the paywalls with silly ways."
+            },
+            {
+                "tag": "p",
+                "content": "First thing I needed is to have a list of approximate coordinates of locations where Google Maps Steet View even has coverage - many countries and regions have very little in terms of coverage, and I would not like to have my program load for a minute until it hits a coordinate that does not throw an error."
+            },
+            {
+                "tag": "p",
+                "content": "The most interesting solution I found online was the Google Street View coverage map - a png file in a Mercator projection."
+            },
+            {
+                "tag": "img",
+                "src": "/img/geo/coverage.png",
+                "alt": "Google Maps Coverage Map",
+                "sub": "fig.1 - Coverage Map as of 2024 I found online (Credit: Google)"
+            },
+            {
+                "tag": "p",
+                "content": "With this in my hands, it was just a matter of writing an image processing script with python to match pixels and geographical coordinates:"
+            },
+            {
+                "tag": "pre",
+                "lang": "python",
+                "sub": "fig.2 - Python code to convert Mercator image to Coordinate List",
+                "content": "from PIL import Image\nimport math\nim = Image.open('coverage.png')\npix = im.load()\nimport numpy as np\ndef mercator_to_latlon(x, y, width, height, lat_min=-79.689, lat_max=80.0):\n    lon = (x / width) * 360.0 - 180.0\n    y_norm = y / height\n    lat_rad_max = math.radians(lat_max)\n    lat_rad_min = math.radians(lat_min)\n    \n    merc_max = math.log(math.tan(math.pi / 4 + lat_rad_max / 2))\n    merc_min = math.log(math.tan(math.pi / 4 + lat_rad_min / 2))\n    \n    merc_y = merc_min + (merc_max - merc_min) * (1 - y_norm)\n    lat = math.degrees(2 * math.atan(math.exp(merc_y)) - math.pi / 2)\n    return lat, lon-0.5\ni=0\nf = open(\"samCoord.txt\", \"a\")\ncoordinates = []\nb=True\nif (b==True):\n    for x in range(im.size[0]):\n        i+=1\n        for y in range(im.size[1]):\n            if(pix[x,y][2]>pix[x,y][0] and pix[x,y][0]<120):\n                f.write(str(mercator_to_latlon(x,y,im.size[0], im.size[1])[0])+','+str(mercator_to_latlon(x,y,im.size[0], im.size[1])[1])+'\\n')\n"
+            },
+            {
+                "tag": "p",
+                "content": "One may notice that the code above 1 - the coordinates are saved in a .txt file, which is intentional, as the later program simply reads a random line of it. Granted, the entire thing has to be loaded into RAM to do that, having a separate hashmap running for this is overkill. And 2 - the seemingly random floats being chosen as boudary for the latitude. The issue with most Mercator projection images is that they cut off the poles ever so slightly - leading to coordinates being shifted, the further from the equator, the stronger the offset. Here is an image of the coordinate points when both of these values were set to 90.0:"
+            },
+            {
+                "tag": "img",
+                "src": "/img/geo/offset.png",
+                "alt": "Coordinate points offset due to image projection",
+                "sub": "fig.3 - Coordinate offset without compensation (By me with Python Foluim)"
+            },
+            {
+                "tag": "p",
+                "content": "Therefore, I had to experimentally adjust the numbers until the results were satisfactory enough. I wrote a small Bash script to compare large city latitudes in the file with the real values, and once the 'stretch' factor hovered around ~1.05, I decided this was satisfactory. No real value I could assign would yield ideal results."
+            },
+            {
+                "tag": "p",
+                "content": "Now I could simply select a random coordinate value from the list, using the code below, slightly scramble it to allow for more diversity in values:"
+            },
+            {
+                "tag": "pre",
+                "sub": "fig.4 - verification code",
+                "lang": "python",
+                "content": "async def streetViewExists(lat, long):\n    radius = 200  # m\n    api_key = G_API_KEY\n    \n    url = f\"https://maps.googleapis.com/maps/api/streetview/metadata?location={lat},{long}&radius={radius}&key={api_key}\"\n    \n    async with aiohttp.ClientSession() as session:\n        async with session.get(url) as response:\n            data = await response.json()\n            return data.get(\"status\") == \"OK\""
+            },
+            {
+                "tag": "p",
+                "content": "which makes use of the free Google Street View Api. In the end, I have a working, stable alternative for personal use. I have also added more functionality to it that I have personally wanted from the real thing - for example, build-in continental maps, or maps with only cities of 1M+ population."
+            },
+            {
+                "tag": "img",
+                "src": "/img/geo/sam.png",
+                "alt": "Modifying The Map to isolate South America",
+                "sub": "fig.5 - process of isolating South America from the map"
+            },
+            {
+                "tag": "p",
+                "content": "In fig.5 you can see how I used a simple Inkscape tool to isolate South America to build a map solely for it - then I ran the script in fig.2 over the resulting image, and obtained great results."
+            },
+            {
+                "tag": "p",
+                "content": "Finally, for the cities, I have obtained a great csv file from simplemaps.com, sorted by population and entered the coordinates into a separate .txt file - I am well aware of the inefficiency of using .txt files over SQL databases or the like."
+            },
+            {
+                "tag": "p",
+                "content": "THANK YOU FOR READING"
+            }
+        ]
+    },
+    {
+        "projectName": "data-guessr",
+        "officialName": "Python and R solutions to large datasets",
+        "github": "https://github.com/iljazaic/DatasetGuessingGame_",
+        "structure": [
+            {
+                "tag": "p",
+                "content": "Over the years I have been compiling some rather interesting datasets about countries, with the ultimate goal to at some point organize them into a cohesive data-guessing game - where my hobby of looking at charts and graphs finally becomes useful."
+            },
+            {
+                "tag": "p",
+                "content": "For the data visualisation I will be using both Apache Echarts and Python MatplotLib, depending on which language compiles the data."
+            },
+            {
+                "tag": "p",
+                "content": "First comes my favourite piece of data - more of a creative expression that data, to me personally."
+            },
+            {
+                "tag": "h1",
+                "content": "Topograhic Crossection along capital longitude (TCCL)"
+            },
+            {
+                "tag": "p",
+                "content": "This might need some explaining, as the name is very ambiguous."
+            },
+            {
+                "tag": "p",
+                "content": "A topographic crossection of a country is a 2D slice of the elevations of the country at some point of its geography. In my example, the cross-section is from West to East, along the longitude on which the capital of the country lies. This is to ensure a uniform, predictable position of the graph for each country. Here is an example:"
+            },
+            {
+                "tag": "img",
+                "src": "/img/data-guessr/denmark.png",
+                "alt": "TCCL of Denmark",
+                "sub": "fig.1 - TCCL of Denmark"
+            },
+            {
+                "tag": "p",
+                "content": "Here, you can clearly see Samsø Bælt, from Sjælland going into Julland and back into the North Sea. This distinct shape of the country allows it to be easily guessed by anyone familiar with basic geography."
+            },
+            {
+                "tag": "img",
+                "src": "/img/data-guessr/line.png",
+                "alt": "Line Over Map",
+                "sub": "fig.2 - TCCL Line On Map (Drawn over Google Maps)"
+            },
+            {
+                "tag": "p",
+                "content": "And in fig.2 you can see how the TCCL reflects on the Mercator projection map. Now, to implement this system, I had to take 3 steps:"
+            },
+            {
+                "tag": "h3",
+                "classes": "complete",
+                "content": "Deploy local API with elevation and country tag datasets for every coordinate"
+            },
+            {
+                "tag": "h3",
+                "classes": "complete",
+                "content": "Using a dataset of all capital coordinates, write the elevations along a longitude into a CVS file"
+            },
+            {
+                "tag": "h3",
+                "classes": "complete",
+                "content": "Extract necessary data arrays and graph them using Apache Echarts"
+            },
+            {
+                "tag": "p",
+                "content": "For the first step, I needed to first find datasets that would allow me to query a) country name and b) elevation for any coordinate. For the first one I have found a shapefile (.shp) from Natural Earth (link at the bottom), which, using Python Geopandas, can be easily read, allows me to write this little function that I later inject into the api:"
+            },
+            {
+                "tag": "pre",
+                "sub": "fig.3 - Python method of extracting Country Name from .shp file",
+                "lang": "python",
+                "content": "app = Flask(__name__)\n\nimport geopandas as gpd\nfrom shapely.geometry import Point\nimport os\n\nshapefile_path = '/app/geodata/ne_10m_admin_0_countries.shp'\nworld = gpd.read_file(shapefile_path)\ndef get_country(lat, lon):\n    point = Point(lon, lat)\n    match = world[world.contains(point)]\n    if not match.empty:\n        return match.iloc[0]['ADMIN']\n    return \"Unknown\"\n\n@app.route('/countryAtCoord')\ndef country_at_coord():\n    lat = request.args.get('lat', type=float)\n    lon = request.args.get('lon', type=float)\n    if lat is None or lon is None:\n        return jsonify({\"error\": \"Please provide lat and lon parameters\"}), 400\n    country = get_country(lat, lon)\n    print(country)\n    return jsonify({\n        \"lat\": lat,\n        \"lon\": lon,\n        \"country\": country\n    })"
+            },
+            {
+                "tag": "p",
+                "content": "This code has been built into the api.py file of a library I have found online, that is designed to read any .tif file. .tif files are specifically designed images for storing scientific data collected by various research agencies. For my use, I have decided to use the Etopo1 dataset by NOAA with 2m precision - probably overkill, but go big or go home. The parsing of this file will be done by the OpenTopoData project, that I have discovered in my research. This essentially hosts a local Flask API and has methods to read most elevation data datasets."
+            },
+            {
+                "tag": "p",
+                "content": "After injecting the above code into the api, and launching it on a local Docker instance on port 5000, step 1 is done. To complete step 2 I wrote the following Python script to parse through the data and create arrays of elevation data for each country:"
+            },
+            {
+                "tag": "pre",
+                "sub": "fig.4 - Python method of generating a TCCL array",
+                "lang": "python",
+                "content": "import requests\nimport numpy as np\nimport math\ndef createCrossection():\n    with open('capitals.csv', 'r') as capitals:\n        try:\n            for line in capitals:\n                try:\n                    lat = round(float(line.split(',')[2]),5)\n                    lon = round(float(line.split(',')[3]),5)\n                    step = 0.001\n                    lon_init = lon\n                    unknown_tolerancy = 5000\n                    current_unknown = 0\n                    stepInKm = step * 111.32*math.cos(math.radians(lat))\n                    initialCountry = requests.get('http://localhost:5000/countryAtCoord', params={'lat':lat,'lon':lon}).json()['country']\n                    currentCountry = initialCountry\n                    #go east\n                    eastData = []\n                    while(currentCountry==initialCountry or current_unknown<=unknown_tolerancy and currentCountry=='Unknown'):\n                        lon+=step\n                        currentCountry = requests.get('http://localhost:5000/countryAtCoord', params={'lat':lat,'lon':lon}).json()['country']\n                        if currentCountry=='Unknown' or current_unknown>0 and currentCountry!=initialCountry:\n                            current_unknown+=1\n                        else:\n                            current_unknown=0\n                        elevation = round(float(requests.get('http://localhost:5000/v1/etopo1', params={'locations':str(lat)+','+str(lon)}).json()['results'][0]['elevation']),0)\n                        eastData.append(elevation)\n                    currentCountry = initialCountry\n                    if current_unknown>0:\n                        del eastData[-current_unknown:]\n                    current_unknown=0\n                    step=0.001\n                    westData = []\n                    lon = lon_init\n                    #go west\n                    while(currentCountry==initialCountry or current_unknown<=unknown_tolerancy and currentCountry=='Unknown'):\n                        lon-=step\n                        currentCountry = requests.get('http://localhost:5000/countryAtCoord', params={'lat':lat,'lon':lon}).json()['country']\n                        if currentCountry=='Unknown' or current_unknown>0 and currentCountry!=initialCountry:\n                            current_unknown+=1\n                        else:\n                            current_unknown=0\n                        elevation = round(float(requests.get('http://localhost:5000/v1/etopo1', params={'locations':str(lat)+','+str(lon)}).json()['results'][0]['elevation']),0)\n                        westData.insert(0,elevation)\n                    if current_unknown>0:\n                        westData=westData[current_unknown:]\n                    fullList = westData+eastData\n                    dw = (stepInKm*len(westData))*-1\n                    de = (stepInKm*len(eastData))\n                    distances = np.array(np.arange(dw, de, stepInKm))\n                    csvFormElevation = ','.join(map(str, fullList)) \n                    csvFormDistances = ','.join(map(str, distances)) \n                    with open('crossection3.csv', 'a', newline='') as crossection:\n                        crossection.write(initialCountry+','+csvFormElevation+'\\n')\n                        crossection.write(initialCountry+','+csvFormDistances+'\\n')\n                        crossection.close()\n                except:\n                    print(line.split(',')[0])\n        except:\n            print('oh no')\ncreateCrossection()"
+            },
+            {
+                "tag": "p",
+                "content": "The code is a bit long, but this is it in its' entirety. This results in a hefty, 17.2MB file, from which the server later will pull just one line, to convert it into "
+            },
+            {
+                "tag": "p",
+                "content": "To complete step 3 I needed to send this data over the network to the client and plug into an Apache Echarts template. Honestly, much easier than I expected. HTTPS can very much handle a 7 thousand float array being sent over the wire - impressive. The final client js script looked like this:"
+            },
+            {
+                "tag": "pre",
+                "sub": "fig.5 - Visualising elevation with Apache Echarts",
+                "lang": "javascript",
+                "content": "    async function loadTopographicCrossection(field, data) {\n        field.parentElement.querySelector('.initButton').style.visibility = 'hidden';\n        var chart = echarts.init(field);\n        console.log(data)\n        var option = {\n            title: {\n                text: 'Topographic Cross-Section along Capital City Longitude'\n            },\n            tooltip: {\n                trigger: 'axis'\n            },\n            xAxis: {\n                type: 'category',\n                boundaryGap: false,\n                data: data.Distances\n            },\n            yAxis: {\n                type: 'value',\n                axisLabel: {\n                    formatter: '{value} m'\n                }\n            },\n            series: [\n                {\n                    name: 'Elevation',\n                    type: 'line',\n                    smooth: true,\n                    symbol: 'none',\n                    lineStyle: {\n                        color: '#5A7D7C',\n                        width: 2\n                    },\n                    areaStyle: {\n                        color: {\n                            type: 'linear',\n                            x: 0,\n                            y: 0,\n                            x2: 0,\n                            y2: 1,\n                            colorStops: [\n                                {\n                                    offset: 0, color: '#8FBABA' // top color\n                                },\n                                {\n                                    offset: 1, color: '#E0ECEC' // bottom color\n                                }\n                            ]\n                        },\n                        shadowColor: 'rgba(0, 0, 0, 0.2)',\n                        shadowBlur: 10\n                    },\n                    data: data.Elevations\n                }\n            ]\n        };\n        chart.setOption(option);\n    }"
+            },
+            {
+                "tag": "p",
+                "content": "Now, this quick explanation will leave you with a country cross-section to guess and links to resources used in this project - have fun!"
+            },
+            {
+                "tag": "img",
+                "src": "/img/data-guessr/guess.png",
+                "alt": "Image To Guess",
+                "sub": "fig.6 - Which country does this TCCL belong to?"
+            },
+            {
+                "tag": "a",
+                "href": "https://www.naturalearthdata.com/downloads/",
+                "label": "Natural Earth (.shp datasets): "
+            },
+            {
+                "tag": "a",
+                "href": "https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/tiled/",
+                "label": "NOAA (ETOPO1 elevation dataset):\n"
+            },
+            {
+                "tag": "a",
+                "href": "https://www.opentopodata.org/",
+                "label": "OpenTopoData (Elevation Local API):\n"
+            },
+            {
+                "tag": "a",
+                "href": "https://echarts.apache.org/en/index.html",
+                "label": "Apache Echarts (Visualisation Library):\n"
             }
         ]
     }

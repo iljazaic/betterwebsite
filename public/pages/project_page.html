@@ -23,8 +23,9 @@
         <h1 id="title">
             --title--
         </h1>
-        <a href="/">Back</a>
-        <a id="gh">GitHub</a>
+        <a style="width: 50px; left: calc( 50% - 26px ); position: relative;" href="/">Back</a>
+        <a style="width: 50px; left: calc( 50% - 97px ); top: 35px; position: relative; padding-bottom: 20px;"
+            id="gh">GitHub</a>
 
     </div>
     <div class="mainDiv" style="background-color: black;">
@@ -34,6 +35,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+
 <script>
 
 
@@ -65,18 +70,23 @@
             document.querySelector("#gh").setAttribute("href", project.github);
 
             let html = '';
+            let c = '';
             project.structure.forEach(item => {
+                c = item.classes != undefined ? item.classes : '';
                 if (item.tag === 'pre') {
-                    html += `<pre><code class="language-java">${escapeHtml(item.content)}</code></pre>`;
+                    html += `<pre><code class="language-${item.lang}">${escapeHtml(item.content)}</code></pre>`;
                     if (item.sub) html += `<p class="figure-sub">${escapeHtml(item.sub)}</p>`;
                 } else if (item.tag === 'img') {
                     html += `<img onclick="zoom(this)" src="${item.src}" alt="${item.alt}">`;
                     if (item.sub) html += `<p class="figure-sub">${escapeHtml(item.sub)}</p>`;
                 } else if (item.tag === 'code') {
-                    html += `<code class="language-java">${escapeHtml(item.content)}</code>`;
+                    html += `<code class="language-${item.lang}">${escapeHtml(item.content)}</code>`;
                     if (item.sub) html += `<p class="figure-sub">${escapeHtml(item.sub)}</p>`;
-                } else {
-                    html += `<${item.tag}>${escapeHtml(item.content)}</${item.tag}>`;
+                } else if (item.tag === 'a') {
+                    html += `<div class="lnk" style="display:flex;flex-direction:row; "><span>${escapeHtml(item.label)} </span><a href="${item.href}"> ${item.href}</a></div>`;
+                }
+                else {
+                    html += `<${item.tag} class="${c}">${escapeHtml(item.content)}</${item.tag}>`;
                 }
             });
 

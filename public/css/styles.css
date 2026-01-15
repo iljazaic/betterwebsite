@@ -4,43 +4,95 @@
 :root {}
 
 
+
+
 .mainDiv>p,
 .mainDiv>img,
-.mainDiv>pre{
+.mainDiv>pre,
+.mainDiv>h1,
+.mainDiv>h3,
+.mainDiv>.lnk {
     width: 35%;
+    min-width: 500px !important;
     left: 32.5%;
     position: relative;
     font-size: 25px;
 }
-.mainDiv>img:hover{
+.lnk{
+    font-size: 20px !important;
+    padding: 10px !important;
+    width: 50% !important;
+    left: 30% !important; 
+}
+
+.mainDiv>pre {
+    border-radius: 10px;
+    background-color: rgb(14, 12, 26) !important;
+    color: black !important;
+}
+
+.mainDiv>h3 {
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.incomplete::before {
+    background-color: red !important;
+}
+
+.complete::before {
+    background-color: green !important;
+}
+
+.mainDiv>h3::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid white;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.mainDiv>h1 {
+    font-size: 30px;
+}
+
+.mainDiv>img:hover {
     cursor: pointer;
 }
 
 
-.mainDiv>img{
+.mainDiv>img {
     transition: 0.1s ease-out;
-    border-radius: 20px;
+    border-radius: 10px;
+
 }
 
-.mainDiv{
+.mainDiv {
     position: relative;
 }
-.figure-sub{
+
+.figure-sub {
     font-size: 17px !important;
     text-align: center;
 }
 
-.title{
+.title {
     width: 100%;
 }
-.title>a{
+
+.title>a {
     display: inline-block;
     font-size: 30px;
     text-align: center;
     width: 100%;
     color: cadetblue;
 }
-.title>h1{
+
+.title>h1 {
     text-align: center;
     font-size: 40px;
 }
@@ -213,10 +265,12 @@ img {
     margin: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    
+
+    z-index: 10000;
+
     justify-content: space-evenly;
     background-color: #ffffff;
-    border: 5px solid rgb(255, 255, 255);
+    border: 0px solid rgb(255, 255, 255);
     color: #000000;
     top: 50%;
 }
@@ -226,13 +280,19 @@ img {
     border-right: 2px solid black;
 }
 
-.banner>a:hover{
+.banner>a:hover {
     background-color: #000000;
     cursor: pointer;
+    color: white;
 }
 
 .banner>a {
-    color: rgb(255, 94, 0);
+    transition: 0.2s linear;
+
+}
+
+.banner>a {
+    color: rgb(55, 47, 167);
 }
 
 
@@ -416,27 +476,30 @@ img {
 
 .box>p {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 2;
+    top:-30%;
     position: relative;
     left: 0;
 }
 
-.sideimage>{
-    position:absolute;
-}
-.sideimage>img{
-    visibility: hidden;
-    height: 100%;
-    top:10%;
+.sideimage> {
     position: absolute;
 }
 
-.sideimage>.right{
-    right: 0;
-    transform: scale(-1,1);
+.sideimage>img {
+    visibility: hidden;
+    height: 100%;
+    top: 10%;
+    position: absolute;
 }
+
+.sideimage>.right {
+    right: 0;
+    transform: scale(-1, 1);
+}
+
 @media (max-width: 1400px) {
-    .sideimage{
+    .sideimage {
         visibility: hidden;
     }
 }
@@ -473,7 +536,7 @@ img {
         grid-column-start: 1;
         grid-column-end: 3;
         grid-row-start: 1;
-        grid-row-end: 3;
+        grid-row-end: 1;
     }
 
 
@@ -511,10 +574,10 @@ img {
     }
 
 
-    .medium-smaller{
-        max-width: 60% !important; 
+    .medium-smaller {
+        max-width: 60% !important;
         max-height: 60% !important;
-        top:10%;
+        top: 10%;
     }
 
     .skim-on-top {
@@ -534,7 +597,7 @@ img {
         grid-column-start: 3;
         grid-column-end: 4;
         grid-row-start: 1;
-        grid-row-end: 4;
+        grid-row-end: 1;
     }
 
     .image-on-bottom>img {
@@ -544,9 +607,9 @@ img {
         grid-row-end: 4;
     }
 
-    .extra-smaller{
+    .extra-smaller {
         max-width: 50% !important;
-        max-height: 50% !important; 
+        max-height: 50% !important;
 
     }
 
