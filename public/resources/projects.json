@@ -370,6 +370,10 @@
                 "tag": "a",
                 "href": "https://echarts.apache.org/en/index.html",
                 "label": "Apache Echarts (Visualisation Library):\n"
+            },
+            {
+                "tag": "h1",
+                "content": "MORE PROJECTS WILL BE ADDED"
             }
         ]
     }
